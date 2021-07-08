@@ -1,0 +1,45 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'edu.kriyaa'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+tasks.named('wrapper') {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        // url "http://redshift-maven-repository.s3-website-us-east-1.amazonaws.com/release"
+        url "https://s3.amazonaws.com/redshift-maven-repository/release" // To connect using SSL
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation group: 'com.amazon.redshift', name: 'redshift-jdbc42', version: '2.0.0.6'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
